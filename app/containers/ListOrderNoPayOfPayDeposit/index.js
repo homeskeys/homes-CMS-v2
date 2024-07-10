@@ -110,7 +110,7 @@ export function ListOrderNoPayOfPayDeposit(props) {
 
   const transformedData = listOrderNoPayOfPayDeposit.map((item, index) => ({
     key: index + 1, // STT
-    amount: Money(item.amount) + " VNĐ", // Số tiền cọc
+    amount: Money(parseInt(item.amount)) + " VNĐ", // Số tiền cọc
     type: item.description,
     _id: item._id, // ID của đối tượng
     time: moment(new Date(item.createdAt)).format("DD/MM/YYYY"),
