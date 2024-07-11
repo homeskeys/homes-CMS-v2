@@ -166,19 +166,24 @@ const Navbar = props => {
   const [notificationCount, setNotificationCount] = useState(0);
 
   useEffect(() => {
-    const userId = currentUser._id;
-    const requestUrl =
-      urlLink.api.serverUrl + urlLink.api.getNotification + userId;
+    const fetchNotifications = async () => {
+      try {
+        const userId = currentUser._id;
+        const requestUrl = `${urlLink.api.serverUrl}${
+          urlLink.api.getNotification
+        }${userId}`;
 
-    axios
-      .get(requestUrl)
-      .then(response => {
+        const response = await axios.get(requestUrl);
         setNotificationCount(response.data.data.length); // Cập nhật số lượng thông báo từ response
-      })
-      .catch(error => {
+      } catch (error) {
         console.log('Error:', error);
-      });
-  }, [currentUser._id]);
+      }
+    };
+
+    if (currentUser && currentUser._id) {
+      fetchNotifications();
+    }
+  }, [currentUser, urlLink]);
 
   //-----------------------
 

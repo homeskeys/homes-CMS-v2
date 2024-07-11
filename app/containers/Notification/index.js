@@ -110,8 +110,9 @@ export function Profile(props) {
   } = props.profile;
 
   useEffect(() => {
-    console.log('Check id: ', _id);
-    props.getProfile(_id);
+    if (_id !== undefined) {
+      props.getProfile(_id);
+    }
   }, [_id]);
   const { showSuccessPopup, showErrorPopup, showWarningPopup } = props.profile;
   const [id, setId] = useState('');
