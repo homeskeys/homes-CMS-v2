@@ -49,6 +49,10 @@ export default defineMessages({
     id: `${scope}.about`,
     defaultMessage: 'Giới thiệu',
   },
+  notifications: {
+    id: `${scope}.notifications`,
+    defaultMessage: 'Thông báo',
+  },
   hi: {
     id: `${scope}.hi`,
     defaultMessage: 'Xin chào',

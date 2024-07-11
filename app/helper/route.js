@@ -1,4 +1,4 @@
-import { put } from "redux-saga/effects";
+import { put } from 'redux-saga/effects';
 
 export const urlLink = {
   // AUTHENTICATE
@@ -36,11 +36,12 @@ export const urlLink = {
     motelCreateOrderAndPdf: '/v1/homeKey/motelRoom/createOrder/pdf',
     reportProblem: '/v1/homeKey/reportProblem/',
     transactionsHost: '/v1/homeKey/host/transactions/host',
-    postRequestWithdrawHost: '/v1/homeKey/host/transactions/requestWithdraws', //for Host
-    getWithdrawalListAdmin: '/v1/admin/withdrawRequest/list', //for admin
-    putApproveWithdrawRequestAdmin: '/v1/admin/approveWithdrawRequest/:id', //for admin, id is transactionId
-    putRejectWithdrawRequestAdmin: '/v1/admin/rejectWithdrawRequest/:id', //for admin, id is transactionId
-    getWithdrawalListHost: '/v1/homeKey/host/transactions/requestWithdraws/list', //for Host
+    postRequestWithdrawHost: '/v1/homeKey/host/transactions/requestWithdraws', // for Host
+    getWithdrawalListAdmin: '/v1/admin/withdrawRequest/list', // for admin
+    putApproveWithdrawRequestAdmin: '/v1/admin/approveWithdrawRequest/:id', // for admin, id is transactionId
+    putRejectWithdrawRequestAdmin: '/v1/admin/rejectWithdrawRequest/:id', // for admin, id is transactionId
+    getWithdrawalListHost:
+      '/v1/homeKey/host/transactions/requestWithdraws/list', // for Host
     bill: '/v1/homeKey/bill',
     Adminbill: '/v1/homeKey/admin/bill',
     AdminReportProblem: '/v1/homeKey/admin/reportProblem',
@@ -48,12 +49,12 @@ export const urlLink = {
     AdminReportProblemAdmin: '/v1/homeKey/admin/reportProblem/admin',
     motelListAdmin: '/v1/homeKey/motelRoom/list/admin',
     motelListDetail: '/v1/homeKey/motelRoom',
-    motelDetail: '/v1/homeKey/motelRoom/', //include infor all room
-    deleteMotelByAdmin: '/v1/homeKey/motelRoom/deleteMotelByAdmin/', //include infor all room
-    getAllDataForBill: '/v1/homeKey/motelRoom/getAllDataForBill/', //include infor all room
-    motelDetailV2: '/v1/homeKey/motelRoom/getMotelByIdV2/', //only infor motel
-    roomOfMotel: '/v1/homeKey/motelRoom/roomsOfMotel/', //visual room data
-    motelDetailOneFloor: '/v1/homeKey/motelRoom/getMotelByIdAndFloor/', //only infor one floor
+    motelDetail: '/v1/homeKey/motelRoom/', // include infor all room
+    deleteMotelByAdmin: '/v1/homeKey/motelRoom/deleteMotelByAdmin/', // include infor all room
+    getAllDataForBill: '/v1/homeKey/motelRoom/getAllDataForBill/', // include infor all room
+    motelDetailV2: '/v1/homeKey/motelRoom/getMotelByIdV2/', // only infor motel
+    roomOfMotel: '/v1/homeKey/motelRoom/roomsOfMotel/', // visual room data
+    motelDetailOneFloor: '/v1/homeKey/motelRoom/getMotelByIdAndFloor/', // only infor one floor
     roomDetail: '/v1/homeKey/room/',
     createRoom: '/v1/homeKey/room/',
     getListRoom: '/v1/homeKey/room/',
@@ -83,6 +84,9 @@ export const urlLink = {
     postTransactionsDepositPendingBanking:
       '/v1/admin/postTransactionsDepositPendingBanking/',
     getTransactionPaymentUserList: '/v1/admin/transactions/user/',
+
+    // Notification
+    getNotification: '/v1/user/notification/', // + userId
     getResetPassWord: '/v1/admin/resetPassword/',
     postBank: '/v1/admin/bank/',
     postBankNameList: '/v1/admin/bankname',
@@ -101,7 +105,7 @@ export const urlLink = {
     getDataEnergyPerDay: '/v1/homeKey/energy/device/currentMonDataPerDay/',
     getDataEnergyPerDayV2: '/v1/homeKey/energy/device/currentMonDataPerDayV2/',
     getNameRoomByIdDevice: '/v1/homeKey/energy/device/getNameRoomById/',
-    getAllData: '/v1/homeKey/energy/device/getAllDataByYearMonth/', //+ :/motelId
+    getAllData: '/v1/homeKey/energy/device/getAllDataByYearMonth/', // + :/motelId
     getLastRecordsOfPreviousMonth:
       '/v1/homeKey/energy/device/getLastRecordsOfPreviousMonth',
     clearData: '/v1/homeKey/energy/devices/clearData', // + /:startTime/:endTime
@@ -120,8 +124,7 @@ export const urlLink = {
 
     getTotalKWhPerDayForDayToDayV2:
       '/v1/homeKey/energy/device/getTotalKWhPerDayForDayToDayV2/', // :idRoom/:start/:end
-    getHistoryEnergyByJob:
-      '/v1/homeKey/energy/device/historyEnergyByJob/', // :idJob/:year
+    getHistoryEnergyByJob: '/v1/homeKey/energy/device/historyEnergyByJob/', // :idJob/:year
     getHistoryEnergyByRoomV2:
       '/v1/homeKey/energy/device/historyEnergyByRoomV2/', // :idRoom/:year
     getListIdMetterElectric:
@@ -150,29 +153,31 @@ export const urlLink = {
     hostBuildingListForRevenue: '/v1/homeKey/energy/device/hostBuildingList/', // +/:idOwner
     getPayDepositList: '/v1/homeKey/order/getPayDepositList/',
     getPayDepositListUser: '/v1/homeKey/order/getPayDepositListUser/',
-    getListOrderNoPayOfPayDeposit: '/v1/homeKey/order/listOrderNoPayOfPayDeposit/',
-    postExportBillRoomPendingPayByOrder: '/v1/homeKey/order/exportBillRoomPendingPayByOrder/',
-    postExportAllBillRoomPendingPayByOrderToMail: '/v1/homeKey/order/exportAllBillRoomPendingPayByOrderToMail/',
-    postExportBillPaidByTransaction: '/v1/homeKey/order/exportBillPaidByTransaction/',
+    getListOrderNoPayOfPayDeposit:
+      '/v1/homeKey/order/listOrderNoPayOfPayDeposit/',
+    postExportBillRoomPendingPayByOrder:
+      '/v1/homeKey/order/exportBillRoomPendingPayByOrder/',
+    postExportAllBillRoomPendingPayByOrderToMail:
+      '/v1/homeKey/order/exportAllBillRoomPendingPayByOrderToMail/',
+    postExportBillPaidByTransaction:
+      '/v1/homeKey/order/exportBillPaidByTransaction/',
     postExportBillPaidByOrder: '/v1/homeKey/order/exportBillPaidByOrder/',
-    putPayDeposit: '/v1/homeKey/order/payDeposit/', //+id
+    putPayDeposit: '/v1/homeKey/order/payDeposit/', // +id
     getBankingCashTransactionList:
       '/v1/homeKey/order/bankingCashTransactionsList/',
-    getOrderPendingPaymentList:
-      '/v1/homeKey/order/orderPendingPaymentList/', //user
+    getOrderPendingPaymentList: '/v1/homeKey/order/orderPendingPaymentList/', // user
     getBankingCashPendingDepositListByMotel:
       '/v1/homeKey/order/bankingCashPendingDepositListByMotel/', // + idMotel
 
     getBankingCashPendingAfterCheckInCostListByMotel:
-      '/v1/homeKey/order/bankingCashPendingAfterCheckInCostListByMotel/',  // + idMotel
+      '/v1/homeKey/order/bankingCashPendingAfterCheckInCostListByMotel/', // + idMotel
     getDepositAfterCheckInCostHistoryList:
-      '/v1/homeKey/order/getDepositAfterCheckInCostHistoryList/',  // + idRoom
-    getMonthlyHistoryList:
-      '/v1/homeKey/order/getMonthlyHistoryList/',  // + idMotel
+      '/v1/homeKey/order/getDepositAfterCheckInCostHistoryList/', // + idRoom
+    getMonthlyHistoryList: '/v1/homeKey/order/getMonthlyHistoryList/', // + idMotel
     getOrderMonthlyPendingPaymentListByMotel:
-      '/v1/homeKey/order/orderMonthlyPendingPaymentListByMotel/',  // + idMotel
+      '/v1/homeKey/order/orderMonthlyPendingPaymentListByMotel/', // + idMotel
     getOrderDepositAfterCheckInCostPendingPaymentListByMotel:
-      '/v1/homeKey/order/orderDepositAfterCheckInCostPendingPaymentListByMotel/',  // + idMotel
+      '/v1/homeKey/order/orderDepositAfterCheckInCostPendingPaymentListByMotel/', // + idMotel
     getBankingCashPendingMonthlyByMotel:
       '/v1/homeKey/order/bankingCashPendingMonthlyByMotel/', // + idMotel
     putBankingCashPendingTransactionByMotel:
@@ -181,8 +186,7 @@ export const urlLink = {
     postTransactionAfterCheckInCostPendingBanking:
       '/v1/homeKey/order/postTransactionAfterCheckInCostPendingBanking/',
     // -------
-    renewContract:
-      '/v1/homeKey/job/renewContract/',
+    renewContract: '/v1/homeKey/job/renewContract/',
     // -------
   },
   auth: {
