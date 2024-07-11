@@ -122,6 +122,7 @@ import RoomBill from 'containers/RoomBill/Loadable';
 import ExportBillRoom from 'containers/ExportBillRoom/Loadable';
 import RoomManage from 'containers/RoomManager/Loadable';
 import Terms from 'containers/Terms/Loadable';
+import Notification from 'containers/Notification/Loadable';
 import localStore from 'local-storage';
 import { FormattedMessage } from 'react-intl';
 import { ToastContainer } from 'react-toastify';
@@ -171,9 +172,22 @@ export function App(props) {
     address: 'Viet Nam',
     minPrice: 0,
     maxPrice: 100000000,
-    utilities: ["wifi","bon_cau", "dieu_hoa", "truyen_hinh", "voi_hoa_sen",
-      "giat_ui", "giu_xe", "gac_lung", "bon_rua_mat", "don_phong",
-      "san_go", "tu_quan_ao", "gio_giac_tu_do", "loi_di_rieng"]
+    utilities: [
+      'wifi',
+      'bon_cau',
+      'dieu_hoa',
+      'truyen_hinh',
+      'voi_hoa_sen',
+      'giat_ui',
+      'giu_xe',
+      'gac_lung',
+      'bon_rua_mat',
+      'don_phong',
+      'san_go',
+      'tu_quan_ao',
+      'gio_giac_tu_do',
+      'loi_di_rieng',
+    ],
   });
   // const [positionFilter, setPositionFilter] = userState();
 
@@ -202,7 +216,13 @@ export function App(props) {
       />
       <Switch>
         {/* <Route exact path="/" component={MapsPage} /> */}
-        <Route exact path="/" render={() => <MapsPage inputValue={inputValue} valueFilter={valueFilter} />} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <MapsPage inputValue={inputValue} valueFilter={valueFilter} />
+          )}
+        />
         <Route path="/auth" component={Auth} />
         <Route path="/bill-list" component={BillList} />
         <Route path="/report-problem/:id" component={ReportProblem} />
@@ -229,6 +249,7 @@ export function App(props) {
         <Route path="/job/:id" component={Job} />
         <Route path="/terms" component={Terms} />
         <Route path="/about" component={About} />
+        <Route path="/notifications" component={Notification} />
         <Route path="/roomManage" component={RoomManage} />
         <Route path="/job-detail/:id/:idRoom" component={JobDetailUser} />
         <Route path="/job-verify/:id/:idElectricMetter" component={JobVerify} />
@@ -291,8 +312,14 @@ export function App(props) {
         <Route path="/hostMotelRoom/:id" component={HostMotelRoomDetail} />
         <Route path="/user/hostMotelRoom" component={HostMotelRoomDetailUser} />
         <Route path="/user/hostRevenue/:id" component={HostRevenue} />
-        <Route path="/admin/hostRevenue/:id" component={HostRevenueManageAdmin} />
-        <Route path="/admin/withdrawRequest/:userId" component={ProcessWithdrawAdmin} />
+        <Route
+          path="/admin/hostRevenue/:id"
+          component={HostRevenueManageAdmin}
+        />
+        <Route
+          path="/admin/withdrawRequest/:userId"
+          component={ProcessWithdrawAdmin}
+        />
         <Route path="/user/history-energy/:id" component={HistoryEnergyUser} />
         <Route path="/history-energy/:id/:name" component={HistoryEnergyHost} />
         <Route
@@ -355,8 +382,8 @@ export function App(props) {
           path="/manage-deposit/accept-deposit/:id"
           component={ManagerAcceptDepositHost}
         />
-        <Route path="/admin/censor-motels/" component={CensorMotels}/>
-        <Route path="/admin/censor-hosts/" component={CensorHosts}/>
+        <Route path="/admin/censor-motels/" component={CensorMotels} />
+        <Route path="/admin/censor-hosts/" component={CensorHosts} />
         <Route
           path="/withdraw-request/list/:userId/:motelName"
           component={WithdrawRequestListHost}

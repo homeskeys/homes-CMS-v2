@@ -45,6 +45,7 @@ import {
   Close,
   CheckCircleOutline,
   FilterList,
+  NotificationsNoneOutlined,
 } from '@material-ui/icons';
 import { geocodeByAddress, getLatLng } from 'react-google-autocomplete';
 
@@ -54,24 +55,27 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
+import axios from 'axios';
 import img2 from './en.png';
 import img1 from './vi.png';
 import messages from './messages';
 import MenuButton from '../MenuButton';
 import Money from '../../containers/App/format';
-import InputLocation from '../../components/InputLocation';
+import InputLocation from '../InputLocation';
 import ModalComponent from './modal';
 import CheckBox from '../CheckBox';
 
-import { SearchLocationContext } from "../../components/SearchLocationContext";
+import { SearchLocationContext } from '../SearchLocationContext';
 
 // note
 import makeSelectProfile from '../../containers/Profile/selectors';
 
-import { getProfile } from '../../containers/Profile/actions';
+// import { getProfile } from '../../containers/Profile/actions';
+import { getProfile } from '../../containers/Notification/actions';
 
 import reducer from '../../containers/Profile/reducer';
 import saga from '../../containers/Profile/saga';
+import { urlLink } from '../../helper/route';
 
 // ---------------------
 
@@ -155,21 +159,30 @@ const Navbar = props => {
   const { pathname } = location;
   const classes = useStyles();
   const typingTimeoutRef = useRef(null);
-
   // note
   // useInjectReducer({ key: 'profile', reducer });
   // useInjectSaga({ key: 'profile', saga });
   const { profile = {} } = props.profile;
+  const [notificationCount, setNotificationCount] = useState(0);
 
   useEffect(() => {
-    props.getProfile();
-  }, []);
+    const userId = currentUser._id;
+    const requestUrl =
+      urlLink.api.serverUrl + urlLink.api.getNotification + userId;
+
+    axios
+      .get(requestUrl)
+      .then(response => {
+        setNotificationCount(response.data.data.length); // Cập nhật số lượng thông báo từ response
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
+  }, [currentUser._id]);
+
   //-----------------------
 
-  const handleSearchLocationChange = async (e) => {
-    console.log("hihsdaádsid");
-    console.log({ e })
-  }
+  const handleSearchLocationChange = async e => {};
 
   const [searchQuery, setSearchQuery] = useState('');
   const [user, setUser] = useState({ lat: 10.856866, lng: 106.763324 });
@@ -189,7 +202,7 @@ const Navbar = props => {
 
   const onSearch = () => {
     onInputChange(namePositon);
-  }
+  };
 
   const menulistSearch = listroom.length > 0 && (
     <div className="listroommenu">
@@ -278,7 +291,7 @@ const Navbar = props => {
 
   const handleClose = () => {
     setToggle(false);
-  }
+  };
 
   const [isOpenCheckIn, setIsOpenCheckIn] = useState(false);
   const toggleCheckInModal = () => {
@@ -287,132 +300,119 @@ const Navbar = props => {
 
   const openFilter = () => {
     setIsOpenCheckIn(true);
-  }
+  };
 
   const [selectedUtility, setSelectedUtility] = useState(null);
 
-  const [address, setAddress] = useState("Viet Nam");
+  const [address, setAddress] = useState('Viet Nam');
   const [utilities, setUtilities] = useState([]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000000);
 
-  const handleUtilityChange = (utility) => {
+  const handleUtilityChange = utility => {
     setSelectedUtility(utility);
   };
-
-
 
   // const utilityOptions = ["wifi","bon_cau", "dieu_hoa", "truyen_hinh", "voi_hoa_sen",
   //   "giat_ui", "giu_xe", "gac_lung", "bon_rua_mat", "don_phong",
   //   "san_go", "tu_quan_ao", "gio_giac_tu_do", "loi_di_rieng"];
 
-  const utilityOptions = [
-    { label: "Internet", value: "wifi" },
-  ]
+  const utilityOptions = [{ label: 'Internet', value: 'wifi' }];
 
   const vietnamProvinces = [
-    { label: "An Giang", value: "An Giang" },
-    { label: "Bà Rịa - Vũng Tàu", value: "Ba Ria - Vung Tau" },
-    { label: "Bạc Liêu", value: "Bac Lieu" },
-    { label: "Bắc Kạn", value: "Bac Kan" },
-    { label: "Bắc Giang", value: "Bac Giang" },
-    { label: "Bắc Ninh", value: "Bac Ninh" },
-    { label: "Bến Tre", value: "Ben Tre" },
-    { label: "Bình Dương", value: "Binh Duong" },
-    { label: "Bình Định", value: "Binh Dinh" },
-    { label: "Bình Phước", value: "Binh Phuoc" },
-    { label: "Bình Thuận", value: "Binh Thuan" },
-    { label: "Cà Mau", value: "Ca Mau" },
-    { label: "Cao Bằng", value: "Cao Bang" },
-    { label: "Cần Thơ", value: "Can Tho" },
-    { label: "Đà Nẵng", value: "Da Nang" },
-    { label: "Đắk Lắk", value: "Dak Lak" },
-    { label: "Đắk Nông", value: "Dak Nong" },
-    { label: "Điện Biên", value: "Dien Bien" },
-    { label: "Đồng Nai", value: "Dong Nai" },
-    { label: "Đồng Tháp", value: "Dong Thap" },
-    { label: "Gia Lai", value: "Gia Lai" },
-    { label: "Hà Giang", value: "Ha Giang" },
-    { label: "Hà Nam", value: "Ha Nam" },
-    { label: "Hà Nội", value: "Ha Noi" },
-    { label: "Hà Tĩnh", value: "Ha Tinh" },
-    { label: "Hải Dương", value: "Hai Duong" },
-    { label: "Hải Phòng", value: "Hai Phong" },
-    { label: "Hậu Giang", value: "Hau Giang" },
-    { label: "Hòa Bình", value: "Hoa Binh" },
-    { label: "Hồ Chí Minh", value: "Ho Chi Minh" },
-    { label: "Hưng Yên", value: "Hung Yen" },
-    { label: "Khánh Hòa", value: "Khanh Hoa" },
-    { label: "Kiên Giang", value: "Kien Giang" },
-    { label: "Kon Tum", value: "Kon Tum" },
-    { label: "Lai Châu", value: "Lai Chau" },
-    { label: "Lâm Đồng", value: "Lam Dong" },
-    { label: "Lạng Sơn", value: "Lang Son" },
-    { label: "Lào Cai", value: "Lao Cai" },
-    { label: "Long An", value: "Long An" },
-    { label: "Nam Định", value: "Nam Dinh" },
-    { label: "Nghệ An", value: "Nghe An" },
-    { label: "Ninh Bình", value: "Ninh Binh" },
-    { label: "Ninh Thuận", value: "Ninh Thuan" },
-    { label: "Phú Thọ", value: "Phu Tho" },
-    { label: "Phú Yên", value: "Phu Yen" },
-    { label: "Quảng Bình", value: "Quang Binh" },
-    { label: "Quảng Nam", value: "Quang Nam" },
-    { label: "Quảng Ngãi", value: "Quang Ngai" },
-    { label: "Quảng Ninh", value: "Quang Ninh" },
-    { label: "Quảng Trị", value: "Quang Tri" },
-    { label: "Sóc Trăng", value: "Soc Trang" },
-    { label: "Sơn La", value: "Son La" },
-    { label: "Tây Ninh", value: "Tay Ninh" },
-    { label: "Thái Bình", value: "Thai Binh" },
-    { label: "Thái Nguyên", value: "Thai Nguyen" },
-    { label: "Thanh Hóa", value: "Thanh Hoa" },
-    { label: "Thừa Thiên - Huế", value: "Thua Thien - Hue" },
-    { label: "Tiền Giang", value: "Tien Giang" },
-    { label: "Trà Vinh", value: "Tra Vinh" },
-    { label: "Tuyên Quang", value: "Tuyen Quang" },
-    { label: "Vĩnh Long", value: "Vinh Long" },
-    { label: "Vĩnh Phúc", value: "Vinh Phuc" },
-    { label: "Yên Bái", value: "Yen Bai" },
+    { label: 'An Giang', value: 'An Giang' },
+    { label: 'Bà Rịa - Vũng Tàu', value: 'Ba Ria - Vung Tau' },
+    { label: 'Bạc Liêu', value: 'Bac Lieu' },
+    { label: 'Bắc Kạn', value: 'Bac Kan' },
+    { label: 'Bắc Giang', value: 'Bac Giang' },
+    { label: 'Bắc Ninh', value: 'Bac Ninh' },
+    { label: 'Bến Tre', value: 'Ben Tre' },
+    { label: 'Bình Dương', value: 'Binh Duong' },
+    { label: 'Bình Định', value: 'Binh Dinh' },
+    { label: 'Bình Phước', value: 'Binh Phuoc' },
+    { label: 'Bình Thuận', value: 'Binh Thuan' },
+    { label: 'Cà Mau', value: 'Ca Mau' },
+    { label: 'Cao Bằng', value: 'Cao Bang' },
+    { label: 'Cần Thơ', value: 'Can Tho' },
+    { label: 'Đà Nẵng', value: 'Da Nang' },
+    { label: 'Đắk Lắk', value: 'Dak Lak' },
+    { label: 'Đắk Nông', value: 'Dak Nong' },
+    { label: 'Điện Biên', value: 'Dien Bien' },
+    { label: 'Đồng Nai', value: 'Dong Nai' },
+    { label: 'Đồng Tháp', value: 'Dong Thap' },
+    { label: 'Gia Lai', value: 'Gia Lai' },
+    { label: 'Hà Giang', value: 'Ha Giang' },
+    { label: 'Hà Nam', value: 'Ha Nam' },
+    { label: 'Hà Nội', value: 'Ha Noi' },
+    { label: 'Hà Tĩnh', value: 'Ha Tinh' },
+    { label: 'Hải Dương', value: 'Hai Duong' },
+    { label: 'Hải Phòng', value: 'Hai Phong' },
+    { label: 'Hậu Giang', value: 'Hau Giang' },
+    { label: 'Hòa Bình', value: 'Hoa Binh' },
+    { label: 'Hồ Chí Minh', value: 'Ho Chi Minh' },
+    { label: 'Hưng Yên', value: 'Hung Yen' },
+    { label: 'Khánh Hòa', value: 'Khanh Hoa' },
+    { label: 'Kiên Giang', value: 'Kien Giang' },
+    { label: 'Kon Tum', value: 'Kon Tum' },
+    { label: 'Lai Châu', value: 'Lai Chau' },
+    { label: 'Lâm Đồng', value: 'Lam Dong' },
+    { label: 'Lạng Sơn', value: 'Lang Son' },
+    { label: 'Lào Cai', value: 'Lao Cai' },
+    { label: 'Long An', value: 'Long An' },
+    { label: 'Nam Định', value: 'Nam Dinh' },
+    { label: 'Nghệ An', value: 'Nghe An' },
+    { label: 'Ninh Bình', value: 'Ninh Binh' },
+    { label: 'Ninh Thuận', value: 'Ninh Thuan' },
+    { label: 'Phú Thọ', value: 'Phu Tho' },
+    { label: 'Phú Yên', value: 'Phu Yen' },
+    { label: 'Quảng Bình', value: 'Quang Binh' },
+    { label: 'Quảng Nam', value: 'Quang Nam' },
+    { label: 'Quảng Ngãi', value: 'Quang Ngai' },
+    { label: 'Quảng Ninh', value: 'Quang Ninh' },
+    { label: 'Quảng Trị', value: 'Quang Tri' },
+    { label: 'Sóc Trăng', value: 'Soc Trang' },
+    { label: 'Sơn La', value: 'Son La' },
+    { label: 'Tây Ninh', value: 'Tay Ninh' },
+    { label: 'Thái Bình', value: 'Thai Binh' },
+    { label: 'Thái Nguyên', value: 'Thai Nguyen' },
+    { label: 'Thanh Hóa', value: 'Thanh Hoa' },
+    { label: 'Thừa Thiên - Huế', value: 'Thua Thien - Hue' },
+    { label: 'Tiền Giang', value: 'Tien Giang' },
+    { label: 'Trà Vinh', value: 'Tra Vinh' },
+    { label: 'Tuyên Quang', value: 'Tuyen Quang' },
+    { label: 'Vĩnh Long', value: 'Vinh Long' },
+    { label: 'Vĩnh Phúc', value: 'Vinh Phuc' },
+    { label: 'Yên Bái', value: 'Yen Bai' },
   ];
 
   const SubmitModal = () => {
-    // console.log({utilities});
-    // console.log({minPrice});
-    // console.log({maxPrice});
-    // console.log(typeof(minPrice));
-    // console.log(typeof(maxPrice));
-
     let MinPrice = minPrice;
     let MaxPrice = maxPrice;
 
-    if (typeof (MinPrice) !== 'number') {
+    if (typeof MinPrice !== 'number') {
       MinPrice = parseInt(MinPrice);
     }
-    if (typeof (MaxPrice) !== 'number') {
+    if (typeof MaxPrice !== 'number') {
       MaxPrice = parseInt(MaxPrice);
     }
 
-
     const data = {
-      address: address,
-      utilities: utilities,
+      address,
+      utilities,
       minPrice: MinPrice,
       maxPrice: MaxPrice,
-    }
+    };
     // console.log({data})
-    console.log("JKAHLSDFKJAHSDFLJKHASDKLJFH")
+    console.log('JKAHLSDFKJAHSDFLJKHASDKLJFH');
     onInputChange(address);
     console.log({ address });
     onFilterChange(data);
     setIsOpenCheckIn(false);
-  }
-
+  };
 
   return (
     <div className="navbar-wrapper">
       <div className="header-content clearfix">
-
         <ModalComponent
           modal={isOpenCheckIn}
           toggle={toggleCheckInModal}
@@ -437,15 +437,10 @@ const Navbar = props => {
                 setAddress(selectedOption.label);
               }}
             />
-            <span
-              style={{ fontSize: '22px', fontWeight: '600' }}
-            >
+            <span style={{ fontSize: '22px', fontWeight: '600' }}>
               <FormattedMessage {...messages.utilities} />
             </span>
-            <Row
-              style={{ marginTop: '10px' }}
-            >
-
+            <Row style={{ marginTop: '10px' }}>
               <Col xs={6} md={4}>
                 <CheckBox
                   label="Internet"
@@ -525,9 +520,7 @@ const Navbar = props => {
               </Col>
               <Col xs={6} md={4}>
                 <CheckBox
-                  label={
-                    <FormattedMessage {...messages.AirConditioner} />
-                  }
+                  label={<FormattedMessage {...messages.AirConditioner} />}
                   onChange={e => {
                     const index = utilities.indexOf('dieu_hoa');
                     if (e.target.checked) {
@@ -698,9 +691,7 @@ const Navbar = props => {
               </Col>
               <Col xs={6} md={4}>
                 <CheckBox
-                  label={
-                    <FormattedMessage {...messages.PrivateEntrance} />
-                  }
+                  label={<FormattedMessage {...messages.PrivateEntrance} />}
                   onChange={e => {
                     const index = utilities.indexOf('loi_di_rieng');
                     if (e.target.checked) {
@@ -718,13 +709,16 @@ const Navbar = props => {
                 />
               </Col>
             </Row>
-            <span
-              style={{ fontSize: '22px', fontWeight: '600' }}
-            >
+            <span style={{ fontSize: '22px', fontWeight: '600' }}>
               <FormattedMessage {...messages.priceRange} />
             </span>
             <Row
-              style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start' }}>
+              style={{
+                marginTop: '10px',
+                display: 'flex',
+                justifyContent: 'flex-start',
+              }}
+            >
               <Col xs={4} sm={2} md={3} lg={3}>
                 {
                   <FormattedMessage {...messages.MinPrice}>
@@ -732,7 +726,7 @@ const Navbar = props => {
                       <InputBase
                         autoComplete={{}}
                         placeholder={msg}
-                        value={(minPrice)}
+                        value={minPrice}
                         classes={{
                           root: classes.inputRoot,
                           input: classes.inputInput,
@@ -740,10 +734,10 @@ const Navbar = props => {
                         inputProps={{ 'aria-label': 'search' }}
                         onChange={e => {
                           // handleSearchTermChange(e);
-                          setMinPrice((e.target.value));
+                          setMinPrice(e.target.value);
                         }}
                         className="HanbleSearch"
-                      // onFocus={onSearch}
+                        // onFocus={onSearch}
                       />
                     )}
                   </FormattedMessage>
@@ -756,7 +750,7 @@ const Navbar = props => {
                       <InputBase
                         autoComplete={{}}
                         placeholder={msg}
-                        value={(maxPrice)}
+                        value={maxPrice}
                         classes={{
                           root: classes.inputRoot,
                           input: classes.inputInput,
@@ -764,10 +758,10 @@ const Navbar = props => {
                         inputProps={{ 'aria-label': 'search' }}
                         onChange={e => {
                           // handleSearchTermChange(e);
-                          setMaxPrice((e.target.value));
+                          setMaxPrice(e.target.value);
                         }}
                         className="HanbleSearch"
-                      // onFocus={onSearch}
+                        // onFocus={onSearch}
                       />
                     )}
                   </FormattedMessage>
@@ -781,13 +775,15 @@ const Navbar = props => {
           <Col xs={12} sm={2} md={3} lg={2} className="text-logo">
             <NavLink exact to="/">
               <div className="logo-text">
-                <img className="logo zoom-hover" src="/favicon.png" alt="logo" />{' '}
+                <img
+                  className="logo zoom-hover"
+                  src="/favicon.png"
+                  alt="logo"
+                />{' '}
                 <FormattedMessage {...messages.home} />
               </div>
             </NavLink>
-            <button
-              className="menu-button"
-              onClick={handleClick}>
+            <button className="menu-button" onClick={handleClick}>
               <MenuButton />
             </button>
           </Col>
@@ -828,7 +824,7 @@ const Navbar = props => {
                           handleSearchTermChange(e);
                         }}
                         className="HanbleSearch"
-                      // onFocus={onSearch}
+                        // onFocus={onSearch}
                       />
                     )}
                     {/* {msg => (
@@ -880,7 +876,7 @@ const Navbar = props => {
                           onChange={e => {
                             handleSearchTermChange(e);
                           }}
-                        // onFocus={onSearch}
+                          // onFocus={onSearch}
                         />
                       )}
                       {/* {msg => (
@@ -906,18 +902,20 @@ const Navbar = props => {
                 </div>
               </li>
             </div>
-
           </Col>
 
-          <Col Col xs={12} sm={12} md={12} lg={5}
-            className={
-              ClassNames(
-                'site-nav',
-                { 'mobile-menu-hide': !toggle },
-                { 'mobile-menu-show': toggle },
-              )}
+          <Col
+            Col
+            xs={12}
+            sm={12}
+            md={12}
+            lg={5}
+            className={ClassNames(
+              'site-nav',
+              { 'mobile-menu-hide': !toggle },
+              { 'mobile-menu-show': toggle },
+            )}
           >
-
             <ul className="site-main-menu">
               {/* note */}
               {/* {!_.isEmpty(currentUser) && (
@@ -946,10 +944,7 @@ const Navbar = props => {
             )} */}
               {/* ------------------------------- */}
               <div className="close-menu">
-                <button
-                  className='close-menu-btn'
-                  onClick={handleClose}
-                >
+                <button className="close-menu-btn" onClick={handleClose}>
                   <Close />
                 </button>
               </div>
@@ -964,6 +959,7 @@ const Navbar = props => {
                   <FormattedMessage {...messages.contact} />
                 </NavLink>
               </li>
+
               <li>
                 <NavLink
                   exact
@@ -973,6 +969,39 @@ const Navbar = props => {
                   }}
                 >
                   <FormattedMessage {...messages.about} />
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  exact
+                  to="/notifications"
+                  onClick={() => {
+                    setToggle(false);
+                  }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <NotificationsNoneOutlined className="icon" />
+                    <div
+                      style={{
+                        zIndex: '1',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: 'white',
+                        top: '-10px',
+                        left: '-10px',
+                        fontSize: '12px',
+                        position: 'relative',
+                        borderRadius: '20px',
+                        backgroundColor: 'red',
+                        height: '20px',
+                        width: '20px',
+                      }}
+                    >
+                      {notificationCount}
+                    </div>
+                  </div>
+                  {/* <FormattedMessage {...messages.notifications} /> */}
                 </NavLink>
               </li>
               {!_.isEmpty(currentUser) ? (
@@ -990,7 +1019,9 @@ const Navbar = props => {
 
                       <DropdownItem
                         className={
-                          pathname.includes('/money-information') ? 'active' : ''
+                          pathname.includes('/money-information')
+                            ? 'active'
+                            : ''
                         }
                         onClick={() => {
                           history.push('/money-information');
@@ -1030,7 +1061,9 @@ const Navbar = props => {
                           </DropdownItem> */}
                           <DropdownItem
                             className={
-                              pathname.includes('/manager-energy-buildings-host')
+                              pathname.includes(
+                                '/manager-energy-buildings-host',
+                              )
                                 ? 'active'
                                 : ''
                             }
@@ -1055,7 +1088,9 @@ const Navbar = props => {
                         </DropdownItem> */}
                           <DropdownItem
                             className={
-                              pathname.includes('/manage-deposit') ? 'active' : ''
+                              pathname.includes('/manage-deposit')
+                                ? 'active'
+                                : ''
                             }
                             onClick={() => {
                               setToggle(false);
@@ -1288,9 +1323,8 @@ const Navbar = props => {
                             }
                             onClick={() => {
                               setToggle(false);
-                              history.push('/admin/report-problem-list')
-                            }
-                            }
+                              history.push('/admin/report-problem-list');
+                            }}
                           >
                             <NotificationImportantOutlined className="icon" />
                             <FormattedMessage {...messages.reportProblemList} />
@@ -1301,7 +1335,9 @@ const Navbar = props => {
                                 ? 'active'
                                 : ''
                             }
-                            onClick={() => history.push('/admin/censor-motels/')}
+                            onClick={() =>
+                              history.push('/admin/censor-motels/')
+                            }
                           >
                             <CheckCircleOutline className="icon" />
                             <FormattedMessage {...messages.acceptMotels} />
@@ -1352,14 +1388,18 @@ const Navbar = props => {
                               }}
                             >
                               <NotificationImportantOutlined className="icon" />
-                              <FormattedMessage {...messages.reportProblemList} />
+                              <FormattedMessage
+                                {...messages.reportProblemList}
+                              />
                             </DropdownItem>
                           </>
                         )}
                       <DropdownItem divider />
                       {/* Profile */}
                       <DropdownItem
-                        className={pathname.includes('/profile') ? 'active' : ''}
+                        className={
+                          pathname.includes('/profile') ? 'active' : ''
+                        }
                         onClick={() => {
                           setToggle(false);
                           history.push('/profile');
@@ -1419,14 +1459,20 @@ const Navbar = props => {
                     </DropdownItem> */}
                       {currentUser.role.includes('customer') && (
                         <DropdownItem
-                          className={pathname.includes('/transaction-banking-cash-log') ? 'active' : ''}
+                          className={
+                            pathname.includes('/transaction-banking-cash-log')
+                              ? 'active'
+                              : ''
+                          }
                           onClick={() => {
                             setToggle(false);
                             history.push('/transaction-banking-cash-log');
                           }}
                         >
                           <ReceiptOutlined className="icon" />
-                          <FormattedMessage {...messages.TransactionBankingCashLog} />
+                          <FormattedMessage
+                            {...messages.TransactionBankingCashLog}
+                          />
                         </DropdownItem>
                       )}
                       {currentUser.role.includes('customer') ? (
@@ -1481,16 +1527,18 @@ const Navbar = props => {
                   </div>
                 </UncontrolledDropdown>
               ) : (
-                <li className={pathname.includes('/auth/login') ? 'active' : ''}>
+                <li
+                  className={pathname.includes('/auth/login') ? 'active' : ''}
+                >
                   <NavLink
                     exact
                     to="/auth/login"
-                    onClick={(e) => {
+                    onClick={e => {
                       // e.preventDefault();
                       // e.stopPropagation();
                       setToggle(false);
                       // handleClickLogin();
-                      console.log("HIHI")
+                      console.log('HIHI');
                     }}
                   >
                     <i className="fa fa-sign-in" aria-hidden="true" />{' '}
@@ -1502,7 +1550,6 @@ const Navbar = props => {
           </Col>
         </Row>
       </div>
-
     </div>
   );
 };
@@ -1521,6 +1568,9 @@ function mapDispatchToProps(dispatch) {
   return {
     getProfile: () => {
       dispatch(getProfile());
+    },
+    getNotification: id => {
+      dispatch(getNotification(id));
     },
   };
 }
