@@ -303,9 +303,17 @@ export function ManagerPayDepositHost(props) {
     },
   ];
 
+  // const filteredColumns = columns.filter(column => {
+  //   if (((role.length === 1 || role.includes('host')) && (column.field === 'success'))
+  //   || ((role.length === 1 || role.includes('host')) && (column.field === 'action-1'))) {
+  //     return false;
+  //   }
+  //   return true;
+  // });
+
   const filteredColumns = columns.filter(column => {
-    if (((role.length === 1 || role.includes('host')) && (column.field === 'success'))
-    || ((role.length === 1 || role.includes('host')) && (column.field === 'action-1'))) {
+    if (((role.length === 1 ||role.length === 2) && (column.field === 'success'))
+    || ((role.length === 1 || role.length === 2) && (column.field === 'action-1'))) {
       return false;
     }
     return true;

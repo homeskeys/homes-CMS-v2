@@ -358,8 +358,14 @@ export function CensorMotels(props) {
     },
   ];
 
+  // const filteredColumns = columns.filter(column => {
+  //   if ((role.length === 1 || role.includes('host')) && (column.field === 'error' || column.field === 'success')) {
+  //     return false;
+  //   }
+  //   return true;
+  // });
   const filteredColumns = columns.filter(column => {
-    if ((role.length === 1 || role.includes('host')) && (column.field === 'error' || column.field === 'success')) {
+    if ((role.length === 1 || role.length === 2) && (column.field === 'error' || column.field === 'success')) {
       return false;
     }
     return true;

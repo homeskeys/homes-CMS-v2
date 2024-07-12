@@ -218,7 +218,7 @@ export function ManageDepositAdmin(props) {
         {/* <span>Người quản lý: <strong>{name}</strong></span> */}
       </div>
 
-      {role.length === 2 && role.includes('master') && (
+      {role.length === 3 && role.includes('master') && (
         <div className="card-wrap">
           {loading && <div className="loading-overlay" />}
           <DataGrid

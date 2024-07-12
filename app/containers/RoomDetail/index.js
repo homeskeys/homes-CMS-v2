@@ -56,16 +56,18 @@ export function RoomDetail(props) {
     setOpen(!open);
   };
   useEffect(() => {
-    if (_.isArray(localStoreService.get('user').role)) {
-      for (
-        let index = 0;
-        index < localStoreService.get('user').role.length;
-        // eslint-disable-next-line no-plusplus
-        index++
-      ) {
-        const element = localStoreService.get('user').role[index];
-        if (element === 'master') {
-          setIsAdmin(true);
+    if(localStoreService.get('user')) {
+      if (_.isArray(localStoreService.get('user').role)) {
+        for (
+          let index = 0;
+          index < localStoreService.get('user').role.length;
+          // eslint-disable-next-line no-plusplus
+          index++
+        ) {
+          const element = localStoreService.get('user').role[index];
+          if (element === 'master') {
+            setIsAdmin(true);
+          }
         }
       }
     }
@@ -149,7 +151,8 @@ export function RoomDetail(props) {
                     <FormattedMessage {...messages.Information} /> {name}
                   </Col>
                   <Col xs={12} sm={5} className="button-container">
-                    {localStoreService.get('user').role.length > 1 && isEdit && (
+                    {localStoreService.get('user') && (
+                      localStoreService.get('user').role.length > 1 && isEdit && (
                       <>
                         <Tooltip
                           title="Chỉnh sửa thông tin"
@@ -187,6 +190,7 @@ export function RoomDetail(props) {
                           </div>
                         </Collapse>
                       </>
+                      )
                     )}
                   </Col>
                 </Row>
@@ -447,20 +451,37 @@ export function RoomDetail(props) {
               </Row>
               <Row className="button">
                 <Col xs={6} className="button-deposit">
-                  {!isAdmin && (
-                    <>
-                      <Button
-                        onClick={() => {
-                          history.push(`/job/${id}`);
-                        }}
-                        color="primary"
-                        className="btn-block"
-                        disabled={room.status !== 'available'}
-                      >
-                        <FormattedMessage {...messages.Deposit} />
-                      </Button>
-                    </>
-                  )}
+                  {
+                    localStoreService.get('user') ? (
+                      !isAdmin && (
+                      <>
+                        <Button
+                          onClick={() => {
+                            history.push(`/job/${id}`);
+                          }}
+                          color="primary"
+                          className="btn-block"
+                          disabled={room.status !== 'available'}
+                        >
+                          <FormattedMessage {...messages.Deposit} />
+                        </Button>
+                      </>
+                      )
+                    ) : (
+                      <>
+                        <Button
+                          onClick={() => {
+                            history.push(`/auth/login`);
+                          }}
+                          color="primary"
+                          className="btn-block"
+                          disabled={room.status !== 'available'}
+                        >
+                          <FormattedMessage {...messages.Login} />
+                        </Button>
+                      </>
+                    )
+                  }
                 </Col>
               </Row>
             </div>

@@ -489,7 +489,7 @@ export function ManagerEnergyHostAdmin(props) {
       {loading && <div className="loading-overlay" />}
 
       <div className="user-profile">
-        {hosts.data && role.length === 2 && role.includes('master') ? (
+        {hosts.data && role.length === 3 && role.includes('master') ? (
           <>
             <ModalComponent
               modal={modal}
