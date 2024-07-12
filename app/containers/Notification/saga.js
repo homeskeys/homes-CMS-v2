@@ -29,18 +29,23 @@ import { loadRepos, reposLoaded } from '../App/actions';
 
 export function* apiGetProfile(id) {
   const userId = id.payload;
-  const requestUrl =
-    urlLink.api.serverUrl + urlLink.api.getNotification + userId;
 
-  console.log('requestUrl', requestUrl);
-  yield put(loadRepos());
-  try {
-    const response = yield axios.get(requestUrl);
-    yield put(getProfileSuccess(response.data.data));
-  } catch (error) {
-    yield put(getProfileFail(error.response.data));
-  } finally {
-    yield put(reposLoaded());
+  if (userId) {
+    const requestUrl =
+      urlLink.api.serverUrl + urlLink.api.getNotification + userId;
+
+    yield put(loadRepos());
+
+    try {
+      const response = yield axios.get(requestUrl);
+      yield put(getProfileSuccess(response.data.data));
+    } catch (error) {
+      yield put(getProfileFail(error.response.data));
+    } finally {
+      yield put(reposLoaded());
+    }
+  } else {
+    console.log('User ID is undefined, skipping API call.');
   }
 }
 
