@@ -250,7 +250,7 @@ export function ManagerEnergyHostAdmin(props) {
       </div>
 
       <div className="user-profile">
-        {hosts && role.length === 2 && role.includes('master') && (
+        {hosts && role.length === 3 && role.includes('master') && (
           <DataGrid
             getRowId={row => row._id}
             rows={hostData}

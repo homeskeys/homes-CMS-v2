@@ -198,6 +198,10 @@ export default defineMessages({
     id: `${scope}.Deposit`,
     defaultMessage: 'Đặt cọc',
   },
+  Login: {
+    id: `${scope}.LoginOrRegister`,
+    defaultMessage: 'Đăng nhập',
+  },
   ErrPopup: {
     id: `${scope}.ErrPopup`,
     defaultMessage: 'Bạn Muốn Xóa Phòng Này',
