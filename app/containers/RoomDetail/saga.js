@@ -37,7 +37,7 @@ export function* apiDeleteRoom(payload) {
   try {
     const response = yield axios.delete(requestUrl, id);
     yield put(deleteRoomSuccess(response.data.data));
-    yield put(push(`/motel-detail/${response.data.data._id}`));
+    yield put(push(`/motel-detail-v2/${response.data.data._id}`));
   } catch (error) {
     yield put(deleteRoomFail(error.response.data));
   } finally {
