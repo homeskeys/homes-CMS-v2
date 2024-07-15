@@ -393,8 +393,10 @@ export function JobDetailUser(props) {
   let waterPrice = 0;
   // // const [waterPricePerPerson, setWaterPricePerPerson] = useState(0);
   let waterPricePerPerson = 0;
+  let wifiPricePer = 0;
   // // const [vehiclePrice, setVehiclePrice] = useState(0);
   let vehiclePrice = 0;
+  let wifiPrice = 0;
   // // const [vehiclePricePer, setVehiclePricePer] = useState(0);
   let vehiclePricePer = 0;
   // // const [numberVehicle, setNumberVehicle] = useState(0);
@@ -440,6 +442,8 @@ export function JobDetailUser(props) {
       // setNumberVehicle(room.vihicle);
       numberVehicle = room.vihicle;
       vehiclePricePer = room.wifiPrice;
+      wifiPricePer = room.wifiPriceN;
+      wifiPrice = parseInt(currentOrder.wifiPrice.toFixed(0));
       // setServicePrice(currentOrder.servicePrice);
       // setVehiclePricePer(room.garbagePrice);
       servicePrice = parseInt(room.garbagePrice.toFixed(0));
@@ -1608,6 +1612,32 @@ export function JobDetailUser(props) {
               {': '}
             </span>
             <span>{Money(waterPrice)}</span>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span style={{ minWidth: '300px' }}>
+              <FormattedMessage {...messages.WifiPriceN} />
+              {': '}
+            </span>
+            <span>{Money(wifiPricePer)}</span>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span style={{ minWidth: '300px' }}>
+              <FormattedMessage {...messages.TotalWifiN} />
+              {': '}
+            </span>
+            <span>{Money(wifiPrice)}</span>
           </div>
           <div
             style={{

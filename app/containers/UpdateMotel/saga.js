@@ -29,10 +29,11 @@ export function* apiPutMotel(payload) {
   const { imageAction } = formData;
 
   console.log({imageAction});
+  console.log({payload});
 
-  if (!isEmpty(imageAction)) {
-    apiPostImgAction(imageAction);
-  }
+  // if (!isEmpty(imageAction)) {
+  //   apiPostImgAction(imageAction);
+  // }
 
   const requestUrl = urlLink.api.serverUrl + urlLink.api.motelDetail + id;
 

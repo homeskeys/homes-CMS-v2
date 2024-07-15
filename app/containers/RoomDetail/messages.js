@@ -216,4 +216,8 @@ export default defineMessages({
     id: `${scope}.DeleteRoom`,
     defaultMessage: 'Xóa phòng',
   },
+  Introduce: {
+    id: `${scope}.Introduce`,
+    defaultMessage: 'Giới thiệu về phòng này',
+  },
 });

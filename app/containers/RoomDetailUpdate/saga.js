@@ -121,6 +121,7 @@ export function* apiPutRoomDetailUpdate(payload) {
       linkVideo: payload.payload.linkVideo,
       vihicle: payload.payload.vihicle,
       person: payload.payload.person,
+      wifiPriceN: payload.payload.wifiPriceN,
     };
   } else {
     data = {
@@ -142,6 +143,7 @@ export function* apiPutRoomDetailUpdate(payload) {
       vihicle: payload.payload.vihicle,
       person: payload.payload.person,
       linkVideo: payload.payload.linkVideo,
+      wifiPriceN: payload.payload.wifiPriceN,
     };
   }
 

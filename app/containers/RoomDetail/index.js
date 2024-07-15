@@ -90,6 +90,7 @@ export function RoomDetail(props) {
     motelRoomDataDetail = {
       owner: '',
       images: [],
+      description: '',
     },
     linkVideo = '',
   } = room;
@@ -237,7 +238,7 @@ export function RoomDetail(props) {
                         <Waves className="water-icon" />
                         <FormattedMessage {...messages.waterPrice} />
                       </div>
-                      {Money(wifiPrice)} đ
+                      {Money(waterPrice)} đ
                     </div>
                   </Col>
                   <Col xs={6} sm={3}>
@@ -246,7 +247,7 @@ export function RoomDetail(props) {
                         <Wifi className="wifi-icon" />
                         <FormattedMessage {...messages.wifiPrice} />
                       </div>
-                      {Money(waterPrice)} đ
+                      {Money(wifiPrice)} đ
                     </div>
                   </Col>
                   <Col xs={6} sm={3}>
@@ -449,7 +450,15 @@ export function RoomDetail(props) {
                   </Col>
                 )}
               </Row>
-              <Row className="button">
+            </div>
+            <div className="introduce">
+              <div className="title">
+                <FormattedMessage {...messages.Introduce} />
+              </div>
+              <div>{motelRoomDataDetail.description}</div>
+            </div>
+            <div className="depositButton">
+            <Row className="button">
                 <Col xs={6} className="button-deposit">
                   {
                     localStoreService.get('user') ? (
@@ -487,7 +496,7 @@ export function RoomDetail(props) {
             </div>
           </div>
 
-          <div className="video-responsive">
+          {/* <div className="video-responsive">
             <iframe
               width="560"
               height="315"
@@ -499,7 +508,7 @@ export function RoomDetail(props) {
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen />
           </div>
-          <br />
+          <br /> */}
         </Container>
       </div>
 

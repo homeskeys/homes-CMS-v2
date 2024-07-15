@@ -61,6 +61,9 @@ const validateForm = Yup.object().shape({
   waterPrice: Yup.string().required(
     <FormattedMessage {...messages.errorWaterPrice} />,
   ),
+  wifiPriceN: Yup.string().required(
+    <FormattedMessage {...messages.errorWifiPriceN} />,
+  ),
   wifiPrice: Yup.string().required(
     <FormattedMessage {...messages.errorwifiPrice} />,
   ),
@@ -129,6 +132,7 @@ export function CreateMotel(props) {
             maxPrice: 0,
             electricityPrice: 0,
             waterPrice: 0,
+            wifiPriceN: 0,
             garbagePrice: 0,
             wifiPrice: 0,
             utilities,
@@ -650,6 +654,23 @@ export function CreateMotel(props) {
                           value={values.waterPrice}
                           touched={touched.waterPrice}
                           error={errors.waterPrice}
+                          onChange={evt => {
+                            handleChange(evt);
+                          }}
+                          onBlur={handleBlur}
+                        />
+                      </Col>
+                      <Col xs={12} md={3}>
+                        <InputForm
+                          label={<FormattedMessage {...messages.wifiPriceN} />}
+                          type="number"
+                          min={0}
+                          placeholder="VND"
+                          name="wifiPriceN"
+                          autoComplete="wifiPriceN"
+                          value={values.wifiPriceN}
+                          touched={touched.wifiPriceN}
+                          error={errors.wifiPriceN}
                           onChange={evt => {
                             handleChange(evt);
                           }}

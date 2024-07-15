@@ -60,9 +60,17 @@ export default defineMessages({
     id: `${scope}.WaterPrice`,
     defaultMessage: 'Giá nước',
   },
+  WifiPriceN: {
+    id: `${scope}.WifiPriceN`,
+    defaultMessage: 'Giá wifi',
+  },
   TotalWater: {
     id: `${scope}.TotalWater`,
     defaultMessage: 'Tổng tiền nước ( = số người x giá nước)',
+  },
+  TotalWifiN: {
+    id: `${scope}.TotalWifiN`,
+    defaultMessage: 'Tổng tiền wifi ( = số người x giá wifi)',
   },
   VehiclePrice: {
     id: `${scope}.VehiclePrice`,

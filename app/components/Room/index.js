@@ -18,7 +18,7 @@ import {
   InfoOutlined,
   VpnKeyOutlined,
   AttachMoneyOutlined,
-  MonetizationOnOutlined, LocalAtmOutlined, Waves, EmojiObjects, Wifi
+  MonetizationOnOutlined, LocalAtmOutlined, Waves, EmojiObjects, Wifi, 
 } from '@material-ui/icons';
 import defaultRoomImage from '../../images/defaul-room.jpg';
 import Money from '../../containers/App/format';
@@ -199,7 +199,7 @@ function Room(props) {
                         <Waves className="water-icon" />
                         <FormattedMessage {...messages.waterPrice} />
                       </div>
-                      {Money(wifiPrice)} đ
+                      {Money(waterPrice)} đ
                     </div>
                   </Col>
                   <Col xs={4}>
@@ -208,7 +208,7 @@ function Room(props) {
                         <Wifi className="wifi-icon" />
                         <FormattedMessage {...messages.wifiPrice} />
                       </div>
-                      {Money(waterPrice)} đ
+                      {Money(wifiPrice)} đ
                     </div>
                   </Col>
                 </Row>

@@ -147,7 +147,7 @@ export function TransactionBankingCashLog(props) {
       urlLink.api.postExportBillPaidByTransaction +
       id;
 
-    console.log({ requestUrl });
+    console.log("THUEEEEE",requestUrl);
 
     try {
       const config = {

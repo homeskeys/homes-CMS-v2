@@ -17,6 +17,10 @@ export default defineMessages({
     id: `${scopeCreateModel}.errorwifiPrice`,
     defaultMessage: 'Vui lòng nhập giá xe',
   },
+  errorwifiPriceN: {
+    id: `${scopeCreateModel}.errorwifiPriceN`,
+    defaultMessage: 'Vui lòng nhập giá xe',
+  },
   errorgarbagePrice: {
     id: `${scopeCreateModel}.errorgarbagePrice`,
     defaultMessage: 'Vui lòng nhập phí Dịch Vụ',
@@ -24,6 +28,10 @@ export default defineMessages({
   wifiPrice: {
     id: `${scopeCreateModel}.wifiPrice`,
     defaultMessage: 'Giá xe',
+  },
+  wifiPriceN: {
+    id: `${scopeCreateModel}.wifiPriceN`,
+    defaultMessage: 'Giá wifi',
   },
   garbagePrice: {
     id: `${scopeCreateModel}.garbagePrice`,

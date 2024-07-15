@@ -48,6 +48,10 @@ export default defineMessages({
     id: `${scope}.errorWaterPrice`,
     defaultMessage: 'Vui lòng nhập giá nước',
   },
+  errorWifiPriceN: {
+    id: `${scope}.errorWifiPriceN`,
+    defaultMessage: 'Vui lòng nhập giá wifi',
+  },
   errorwifiPrice: {
     id: `${scope}.errorwifiPrice`,
     defaultMessage: 'Vui lòng nhập giá xe',
@@ -216,6 +220,10 @@ export default defineMessages({
   wifiPrice: {
     id: `${scope}.wifiPrice`,
     defaultMessage: 'Giá xe',
+  },
+  wifiPriceN: {
+    id: `${scope}.wifiPriceN`,
+    defaultMessage: 'Giá wifi',
   },
   garbagePrice: {
     id: `${scope}.garbagePrice`,

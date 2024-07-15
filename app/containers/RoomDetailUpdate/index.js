@@ -333,6 +333,7 @@ export function RoomDetail(props) {
 
   const [price, setprice] = useState(room.price);
   const [waterPrice, setwaterPrice] = useState(room.waterPrice);
+  const [wifiPriceN, setwifiPriceN] = useState(room.wifiPriceN);
   const [minimumMonths, setMinimumMonths] = useState(room.minimumMonths);
   const [availableDate, setAvailableDate] = useState(availableDateRoom);
   const [acreage, setAcreage] = useState(room.acreage);
@@ -674,6 +675,21 @@ export function RoomDetail(props) {
               autoComplete="waterPrice"
               onChange={evt => {
                 setwaterPrice(evt.target.value);
+              }}
+            />
+          </Col>
+          <Col md={3} xs={6}>
+            <InputForm
+              label={<FormattedMessage {...messages.wifiPriceN} />}
+              type="number"
+              min={0}
+              placeholder="VND"
+              name="wifiPriceN"
+              value={wifiPriceN}
+              autoComplete="wifiPriceN"
+              onChange={evt => {
+                setwifiPriceN(evt.target.value);
+                console.log("GIÁ WIFI", evt.target.value);
               }}
             />
           </Col>
@@ -1218,6 +1234,7 @@ export function RoomDetail(props) {
                     electricityPrice,
                     price,
                     waterPrice,
+                    wifiPriceN,
                     minimumMonths,
                     availableDate,
                     acreage,
