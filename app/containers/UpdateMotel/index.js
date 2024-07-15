@@ -18,6 +18,7 @@ import { createStructuredSelector } from 'reselect';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 import * as Yup from 'yup';
+import axios from 'axios';
 import InputForm from '../../components/InputForm';
 import InputLocation from '../../components/InputLocation';
 // import { getMotel } from '../Motel/actions';
@@ -26,6 +27,7 @@ import { changeStoreData, postImg, putMotel } from './actions';
 import messages from './messages';
 import reducer from './reducer';
 import saga from './saga';
+import { urlLink } from '../../helper/route';
 import makeSelectUpdateMotel from './selectors';
 import './style.scss';
 
@@ -55,6 +57,9 @@ const validateForm = Yup.object().shape({
   wifiPrice: Yup.string().required(
     <FormattedMessage {...messages.errorwifiPrice} />,
   ),
+  wifiPriceN: Yup.string().required(
+    <FormattedMessage {...messages.errorwifiPriceN} />,
+  ),
   garbagePrice: Yup.string().required(
     <FormattedMessage {...messages.errorgarbagePrice} />,
   ),
@@ -71,32 +76,7 @@ export function UpdateMotel(props) {
     props.getMotelInfor(id);
   }, []);
 
-  const TenMegaBytes = 10 * 1024 * 1024;
-  const [submitAction, setSubmitAction] = useState(false);
-  const [imageAction, seImageAction] = useState('');
-
-  const handleFileInputChange = e => {
-    setSubmitAction(true);
-    const abcfile = e.target.files[0];
-    // check mb file size
-    if (abcfile.size <= TenMegaBytes) {
-      setSubmitAction(false);
-      const formData = new FormData();
-      formData.append('file', abcfile);
-      try {
-        const data = {
-          id,
-          formData,
-        };
-        seImageAction(data);
-        // apiPostImg(data);
-      } catch (error) { }
-    }
-  };
-
   const { motel = {} } = props.updateMotel;
-
-  console.log("motellllllll", motel);
 
   const {
     name = '',
@@ -109,9 +89,86 @@ export function UpdateMotel(props) {
     waterPrice = 0,
     garbagePrice = 0,
     wifiPrice = 0,
+    wifiPriceN = 0,
     images = [],
   } = motel;
-  console.log("ảnhhhh", images);
+
+  console.log("motellllllll", motel);
+
+  const TenMegaBytes = 10 * 1024 * 1024;
+  const [submitAction, setSubmitAction] = useState(false);
+  const [imageAction, seImageAction] = useState('');
+  const [arrayRemoveImg, setArrayRemoveImg] = useState([]);
+  const [arrayImg, setArrayImg] = useState(images || []);
+  const [arrayCallImg, setArrayCallImg] = useState([]);
+
+
+  const handleFileInputChange = e => {
+    const dataFile = e.target.files;
+    setArrayCallImg([]);
+    let newArr = arrayCallImg;
+    setSubmitAction(true);
+    // const abcfile = e.target.files[0];
+    // check mb file size
+    for (let i = 0; i < dataFile.length; i++) {
+      if (dataFile[i].size <= TenMegaBytes) {
+        setSubmitAction(false);
+        const formData = new FormData();
+        formData.append('file', dataFile[i]);
+        try {
+          const data = {
+            id,
+            formData,
+          };
+          seImageAction(data);
+          newArr.push(data);
+          // apiPostImg(data);
+        } catch (error) { }
+      }
+    }
+
+    setArrayCallImg(newArr);
+  };
+
+  const handleCallImages = () => {
+    const n = arrayCallImg.length;
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < n; i++) {
+      apiPostImg(arrayCallImg[i]);
+    }
+  };
+
+  const apiPostImg = async payload => {
+    // eslint-disable-next-line no-shadow
+    const { id, formData } = payload;
+    const requestUrl = `${urlLink.api.serverUrl +
+      urlLink.api.motelDetail}img/${id}`;
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    try {
+      const response = await axios.post(requestUrl, formData, config);
+      if (response.data.data.images) {
+        return response.data.data.images.imageUrl;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleRemoveClick = (value, index) => {
+    const newArr = arrayRemoveImg;
+    newArr.push(value);
+    setArrayRemoveImg(newArr);
+    setArrayImg(prevImages => {
+      const updatedImages = [...prevImages];
+      updatedImages.splice(index, 1);
+      return updatedImages;
+    });
+  };
 
   return (
     <div className="update-motel-wrapper">
@@ -131,15 +188,18 @@ export function UpdateMotel(props) {
             waterPrice,
             garbagePrice,
             wifiPrice,
+            wifiPriceN,
             description,
             address,
-            imagesView: images,
+            imagesView: arrayImg,
+            removedImg: arrayRemoveImg,
           }}
           enableReinitialize
           validationSchema={validateForm}
           onSubmit={evt => {
             // uploadImage(previewSource);
             const temp = { ...evt, id, imageAction };
+            handleCallImages();
             props.putMotel(id, temp);
           }}
         >
@@ -204,6 +264,23 @@ export function UpdateMotel(props) {
                     value={values.wifiPrice}
                     touched={touched.wifiPrice}
                     error={errors.wifiPrice}
+                    onChange={evt => {
+                      handleChange(evt);
+                    }}
+                    onBlur={handleBlur}
+                  />
+                </Col>
+                <Col xs={6} md={3}>
+                  <InputForm
+                    label={<FormattedMessage {...messages.wifiPriceN} />}
+                    type="number"
+                    min={0}
+                    placeholder="VND"
+                    name="wifiPriceN"
+                    autoComplete="wifiPriceN"
+                    value={values.wifiPriceN}
+                    touched={touched.wifiPriceN}
+                    error={errors.wifiPriceN}
                     onChange={evt => {
                       handleChange(evt);
                     }}
@@ -348,7 +425,7 @@ export function UpdateMotel(props) {
                   )}
                 </FormattedMessage>
               }
-              <Row>
+              {/* <Row>
                 {values.imagesView.length > 0 &&
                   values.imagesView.map((value, index) => (
                     <Col xs={6} md={3} className="text-center">
@@ -365,6 +442,41 @@ export function UpdateMotel(props) {
                       />
                     </Col>
                   ))}
+              </Row> */}
+
+              <Row>
+                {values.imagesView.length > 0 &&
+                  values.imagesView.map((value, index) => (
+                    <Col xs={6} md={3} className="text-center">
+                      <Avatar
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={index}
+                        style={{
+                          width: '100%',
+                          height: '200px',
+                          margin: '10px auto',
+                          position: 'relative',
+                        }}
+                        variant="square"
+                        alt="Avatar"
+                        src={value}
+                      />
+                      <Button
+                        style={{
+                          position: 'absolute',
+                          top: '10px',
+                          right: '15px',
+                        }}
+                        className="remove-button"
+                        onClick={() => {
+                          handleRemoveClick(value, index);
+                        }}
+                        color="primary"
+                      >
+                        X
+                      </Button>
+                    </Col>
+                  ))}
               </Row>
 
               <Row>
@@ -373,6 +485,7 @@ export function UpdateMotel(props) {
                     type="file"
                     id="fileupload"
                     accept=".png, .jpg"
+                    multiple="multiple"
                     onChange={e => {
                       handleFileInputChange(e);
                     }}

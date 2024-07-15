@@ -60,7 +60,7 @@ export function* apiputCreateRoom(payload) {
     //   }
     // }
     // eslint-disable-next-line no-underscore-dangle
-    yield put(push(`/motel-detail/${response.data.data[0]._id}`));
+    yield put(push(`/motel-detail-v2/${response.data.data[0]._id}`));
   } catch (error) {
     yield put(putCreateRoomFail(error.response.data));
   } finally {

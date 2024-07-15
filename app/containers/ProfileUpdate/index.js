@@ -127,6 +127,7 @@ export function ProfileUpdate(props) {
       ),
   });
 
+  console.log({profile});
   const [avatarFile, setAvatarFile] = useState('');
   const [avatarAction, setAvatarAction] = useState('');
 

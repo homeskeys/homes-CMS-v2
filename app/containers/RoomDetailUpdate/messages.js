@@ -89,6 +89,10 @@ export default defineMessages({
     id: `${scope}.waterPrice`,
     defaultMessage: 'Giá nước',
   },
+  wifiPriceN: {
+    id: `${scope}.wifiPriceN`,
+    defaultMessage: 'Giá wifi',
+  },
   MultipleImage: {
     id: `${scope}.MultipleImage`,
     defaultMessage: '',

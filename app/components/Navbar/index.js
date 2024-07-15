@@ -1037,7 +1037,7 @@ const Navbar = props => {
                       </DropdownItem>
 
                       {/* Host role */}
-                      {currentUser.role.includes('host') && (
+                      {currentUser.role.length === 2 && currentUser.role.includes('host') && (
                         <>
                           {/* <DropdownItem
                           className={
@@ -1204,7 +1204,7 @@ const Navbar = props => {
                         </>
                       )}
                       {/* Admin role */}
-                      {currentUser.role.includes('master') && (
+                      {currentUser.role.length === 3 && currentUser.role.includes('master') && (
                         <Fragment>
                           <DropdownItem
                             className={
